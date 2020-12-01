@@ -10,15 +10,13 @@ class Schedule {
 
     private $ScheduleID;
     private $Date;
-    private $DayOfWeek;
     private $Time;
     private $isBooked;
     private $WalkerID;
 
-    public function __construct($ScheduleID, $Date, $DayOfWeek, $Time, $isBooked, $WalkerID) {
+    public function __construct($ScheduleID, $Date, $Time, $isBooked, $WalkerID) {
         $this->ScheduleID = $ScheduleID;
         $this->Date = $Date;
-        $this->DayOfWeek = $DayOfWeek;
         $this->Time = $Time;
         $this->isBooked = $isBooked;
         $this->WalkerID = $WalkerID;
@@ -29,10 +27,6 @@ class Schedule {
 
     public function getDate() {
         return $this->Date;
-    }
-
-    public function getDayOfWeek() {
-        return $this->DayOfWeek;
     }
 
     public function getTime() {
@@ -53,10 +47,6 @@ class Schedule {
 
     public function setDate($Date) {
         $this->Date = $Date;
-    }
-
-    public function setDayOfWeek($DayOfWeek) {
-        $this->DayOfWeek = $DayOfWeek;
     }
 
     public function setTime($Time) {

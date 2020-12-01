@@ -21,17 +21,9 @@ if ($action === NULL) {
 switch ($action) {
     case 'Login':
         // instanciate fields
-        if(!isset($fname)) { $fname=''; }
-        if(!isset($lname)) { $lname=''; }
         if(!isset($username)) { $username=''; }
-        if(!isset($email)) { $email=''; }
         if(!isset($password)) { $password=''; }
-        if(!isset($errorFName)) { $errorFName=''; }
-        if(!isset($errorLName)) { $errorLName=''; }
-        if(!isset($errorUsername)) { $errorUsername=''; }
-        if(!isset($errorEmail)) { $errorEmail=''; }
-        
-
+       
         // Display the login form
         include'./view/login.php';
         break;
@@ -71,7 +63,7 @@ switch ($action) {
         // instanciate fields
 
         if(!isset($errorName)) { $errorName=''; }
-        if(!isset($errorUsername)) { $errorUsername=''; }
+        if(!isset($errorEmail)) { $errorEmail=''; }
         if(!isset($errorEmail)) { $errorEmail=''; }
         
         // Display the registration form
@@ -79,14 +71,7 @@ switch ($action) {
         break;
     case 'Registration':
         // instanciate fields
-        if(!isset($name)) { $name=''; }
-        if(!isset($username)) { $username=''; }
-        if(!isset($email)) { $email=''; }
-        if(!isset($password)) { $password=''; }
-        if(!isset($city)) { $city=''; }
-        if(!isset($street)) { $street=''; }
-        if(!isset($state)) { $state=''; }
-        if(!isset($postal)) { $postal=''; }
+        
         if(!isset($errorFName)) { $errorFName=''; }
         if(!isset($errorUsername)) { $errorUsername=''; }
         if(!isset($errorEmail)) { $errorEmail=''; }
@@ -108,8 +93,14 @@ switch ($action) {
           $city = filter_input(INPUT_POST, "city");
           $state = filter_input(INPUT_POST, "state");
           $postal = filter_input(INPUT_POST, "postal");
-  
-          $error = '';
+          
+            var_dump($name);
+            var_dump($city);
+            var_dump($username);
+            var_dump($email);
+            var_dump($street);
+            var_dump($state);
+          
           $errorName ='';
           $errorUsername = '';
           $errorEmail = '';
@@ -120,11 +111,8 @@ switch ($action) {
           $errorPostal = '';
 
         // Validate the inputs
-    if($name === '') {
+    if($name === '' or $name === NULL) {
         $errorName .= "Please enter you full name. ";
-    }else if(Validation::validName($name) === 0){
-        $errorName .= "Name must begin with a letter. ";
-        $name = "";
     }
       
     if($username === ''){
@@ -133,18 +121,21 @@ switch ($action) {
         $errorUsername = "User name is already taken. ";
         $username = "";
     }else if(Validation::validName($username) === 0){
-        $errorUsername .= "Username must begin with a letter. ";
+        $errorUsername = "Username must begin with a letter. ";
         $username = "";
     }else if(Validation::isValidUsername($username)=== false){
-        $errorUsername .= "Username must be 4 to 30 characters long. ";
+        $errorUsername = "Username must be 4 to 30 characters long. ";
         $username = "";
     }
+    
     
     if($email === FALSE){
         $errorEmail = "Please enter a valid email. ";
     }else if(User_db::email_exists($email) === true){
         $errorEmail = "Email address is already taken. ";
-        $email = "";
+        $email = ""; 
+    }else if($email === NULL){
+        $errorEmail = "Please enter an email address. ";
     }
     
     if($password === ''){
@@ -164,29 +155,20 @@ switch ($action) {
         iv. at least 1 special character (punctuation)  ";
     }
 
-    if($street === '') {
+    if($street === '' or $street === NULL) {
         $errorStreet .= "Please enter your street address. ";
-    }else if(Validation::validName($street) === 0){
-        $errorStreet .= "Street Error. ";
-        $errorStreet = "";
     }
     
-        if($city === '') {
-        $errorCity .= "Please enter your city of residence. ";
-    }else if(Validation::validName($city) === 0){
-        $errorCity .= "City Error. ";
-        $city = "";
+        if($city === '' or $city === NULL) {
+        $errorCity = "Please enter your city of residence. ";
     }
     
-        if($state === '') {
-        $errorState .= "Please enter your state of residence. ";
-    }else if(Validation::validName($state) === 0){
-        $errorState .= "state error. ";
-        $state = "";
+        if($state === '' or $state === NULL) {
+        $errorState = "Please enter your state of residence. ";
     }
     
-        if($postal === '') {
-        $errorPostal .= "Please enter your postal (Zip) code. ";
+        if($postal === '' or $postal === NULL) {
+        $errorPostal = "Please enter your postal (Zip) code. ";
     }
     
     if($errorName !== '' || $errorUsername !== '' || $errorEmail !== '' || $errorPassword !== '' || $errorStreet !== '' || $errorCity !== '' || $errorState !== '' || $errorPostal !== ''){
@@ -194,13 +176,16 @@ switch ($action) {
         break;
     }else {
         $phonenumber = '0000000000';
+        $image = '';
         $notes = 'notes';
         $type = 0;
         $_SESSION['username'] = $username;
         mkdir("./images/".$username, 0777, true);
         User_db::add_user($username, $password, $name, $email, $image, $phonenumber, $street, $city, $state, $type, $notes);
-        
+        $appointments = Appointment_db::select_all();
         $user = User_db::get_user($username);
+        $type = User_db::get_type($username);
+        $_SESSION['Type'] = $type;
         include('view/landing.php'); 
         break;
     }
@@ -239,7 +224,8 @@ switch ($action) {
                     $user = User_db::get_user($username);
                     $type = User_db::get_type($username);
                     $_SESSION['username'] = $username;
-                    $_SESSION['type'] = $type;
+                    $_SESSION['Type'] = $type;
+                    $appointments = Appointment_db::select_all();
                     include('view/landing.php');
                 } else {
                     $errorLogin = 'Invalid User Code or Password';
@@ -320,6 +306,7 @@ switch ($action) {
         Appointment_db::delete_appointment($ID);
          $username = $_SESSION['username'];
         $user = User_db::get_user($username);
+        $appointments = Appointment_db::select_all();
         include('view/Landing.php');  
         break;
         case 'RemoveAppt':
@@ -335,9 +322,10 @@ switch ($action) {
         Appointment_db::add_appointment($CustomerId, $ScheduleId, $Status);
         $IsBooked = '1';
         Schedule_db::update_schedule_item($ScheduleId, $IsBooked);
+        $appointments = Appointment_db::select_all();
         include('view/Landing.php');   
         break;
-    case 'Manage Schedule':
+    case 'View Schedule':
      //$type = $_SESSION['type'];
 //        if ($type = 1){
 //        include('view/customerSchedule.php');
@@ -400,12 +388,14 @@ switch ($action) {
         $username = $_SESSION['username'];
         User_db::update_user($username,$name, $email, $password);
         $user = User_db::get_user($username);
+        $appointments = Appointment_db::select_all();
         include('view/landing.php'); 
         break;
     }
     case 'Landing':
     $username = $_SESSION['username'];
     $user = User_db::get_user($username);
+     $appointments = Appointment_db::select_all();
     include('view/landing.php');
     break;
 
@@ -436,7 +426,7 @@ switch ($action) {
          move_uploaded_file($file_tmp,"images/".$username."/".$file_name);
          User_db::change_image($username, $file_name);
          $user = User_db::get_user($username);
-        include('view/Landing.php'); 
+        include('view/EditUserInfo.php'); 
         break;
       }
    }

@@ -98,10 +98,9 @@ class Schedule_db {
     {
         $db = Database::getDB();
  
-      $query = 'INSERT INTO schedules (Date, DayOfWeek, Time, IsBooked, WalkerID) VALUES (:Date, :DayOfWeek, :Time, :IsBooked, :WalkerID)';
+      $query = 'INSERT INTO schedules (Date, Time, IsBooked, WalkerID) VALUES (:Date, :Time, :IsBooked, :WalkerID)';
       $statement = $db->prepare($query);
       $statement->bindValue(':Date', $date);
-      $statement->bindValue(':DayOfWeek', $DayOfWeek);
       $statement->bindValue(':Time', $Time);
       $statement->bindValue(':IsBooked', $IsBooked);
       $statement->bindValue(':WalkerID', $WalkerId);

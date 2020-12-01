@@ -182,4 +182,87 @@ class User_db {
     $statement->closeCursor();
     return $type;
     }
+    
+    public static function get_email($username){
+    $db = Database::getDB();
+
+    $query = 'SELECT Email from users WHERE Username = :Username';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Username', $username);
+    $statement->execute();
+    $results = $statement->fetch();
+    $id = $results['Email'];
+    $statement->closeCursor();
+    return $id;
+    }
+    
+    public static function get_name($username){
+    $db = Database::getDB();
+
+    $query = 'SELECT Name from users WHERE Username = :Username';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Username', $username);
+
+    $statement->execute();
+    $results = $statement->fetch();
+    $name = $results['Name'];
+    $statement->closeCursor();
+    return $name;
+    }
+    
+    public static function get_street($username){
+    $db = Database::getDB();
+
+    $query = 'SELECT StreetAddress from users WHERE Username = :Username';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Username', $username);
+
+    $statement->execute();
+    $results = $statement->fetch();
+    $street = $results['StreetAddress'];
+    $statement->closeCursor();
+    return $street;
+    }
+    
+    public static function get_city($username){
+    $db = Database::getDB();
+
+    $query = 'SELECT City from users WHERE Username = :Username';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Username', $username);
+
+    $statement->execute();
+    $results = $statement->fetch();
+    $city = $results['City'];
+    $statement->closeCursor();
+    return $city;
+    }
+    
+    public static function get_state($username){
+    $db = Database::getDB();
+
+    $query = 'SELECT State from users WHERE Username = :Username';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Username', $username);
+
+    $statement->execute();
+    $results = $statement->fetch();
+    $state = $results['State'];
+    $statement->closeCursor();
+    return $state;
+    }
+    
+    public static function get_postal($username){
+    $db = Database::getDB();
+
+    $query = 'SELECT Postal from users WHERE Username = :Username';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':Username', $username);
+
+    $statement->execute();
+    $results = $statement->fetch();
+    $name = $results['Postal'];
+    $statement->closeCursor();
+    return $name;
+    }
 }
