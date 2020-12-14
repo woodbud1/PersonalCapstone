@@ -5,6 +5,7 @@ $name = User_db::get_name($username);
 $street = User_db::get_street($username);
 $city = User_db::get_city($username);
 $state = User_db::get_state($username);
+//$postal = User_db::get_postal($username);
 //postal code
 
 ?>
@@ -28,16 +29,16 @@ $state = User_db::get_state($username);
                  echo $errorEmail;} ?></b></font> </span><br>
               
             <label>Street Address: </label>
-            <input type="text" name="street" placeholder="please enter your street address" value=""><span><font color="red"> <?php if(isset($errorStreet)) { echo $errorStreet; }?></font></span><br>
+            <input type="text" name="street" placeholder="please enter your street address" value="<?php echo htmlspecialchars($street); ?>"><span><font color="red"> <?php if(isset($errorStreet)) { echo $errorStreet; }?></font></span><br>
 
             <label>City<font color="red">*</font>: </label>
-            <input type="text" name="city" placeholder="please enter your city of residence" value=""><span><font color="red"> <?php if(isset($errorCity)) { echo $errorCity; }?></font></span><br>
+            <input type="text" name="city" placeholder="please enter your city of residence" value="<?php echo htmlspecialchars($city); ?>"><span><font color="red"> <?php if(isset($errorCity)) { echo $errorCity; }?></font></span><br>
             
             <label>State<font color="red">*</font>: </label>
-            <input type="text" name="state" placeholder="please enter your state of residence" value=""><span><font color="red"> <?php if(isset($errorState)) { echo $errorState; }?></font></span><br>
+            <input type="text" name="state" placeholder="please enter your state of residence" value="<?php echo htmlspecialchars($state); ?>"><span><font color="red"> <?php if(isset($errorState)) { echo $errorState; }?></font></span><br>
            
             <label>Postal Code<font color="red">*</font>: </label>
-            <input type="text" name="postal" placeholder="please enter your zip code" value=""><span><font color="red"> <?php if(isset($errorPostal)) { echo $errorPostal; }?></font></span><br>
+            <input type="text" name="postal" placeholder="please enter your zip code" value="<?php echo htmlspecialchars($postal); ?>"><span><font color="red"> <?php if(isset($errorPostal)) { echo $errorPostal; }?></font></span><br>
             
             <label>Password: </label>
             <input type="password" name="password"><span><font color="red"><b><?php if (isset($errorPassword)) {

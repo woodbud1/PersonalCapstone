@@ -59,12 +59,28 @@ switch ($action) {
         include'./view/EditUserInfo.php';
         break;    
         
-    case 'Edit':
+        case 'Edit':
+        // instanciate fields
+        $username = filter_input(INPUT_POST, 'username');
+        //var_dump($username);
+
+        if(!isset($errorEmail)) { $errorEmail=''; }
+         if(!isset($errorName)) { $errorName=''; }
+         
+        // Display the registration form
+        include'./view/profile.php';
+        break;
+        
+    case 'Edit Profile':
         // instanciate fields
 
-        if(!isset($errorName)) { $errorName=''; }
+        if(!isset($errorFName)) { $errorFName=''; }
+        if(!isset($errorUsername)) { $errorUsername=''; }
         if(!isset($errorEmail)) { $errorEmail=''; }
-        if(!isset($errorEmail)) { $errorEmail=''; }
+        if(!isset($errorStreet)) { $errorStreet=''; }
+        if(!isset($errorCity)) { $errorCity=''; }
+        if(!isset($errorState)) { $errorState=''; }
+        if(!isset($errorPostal)) { $errorPostal=''; }
         
         // Display the registration form
         include'./view/EditUserInfo.php';
@@ -258,6 +274,19 @@ switch ($action) {
         }
         include('view/AddSchedule.php');   
         break;      
+        
+    case 'Back To Users':
+
+    $users = User_db::select_all();
+    include('view/UserManager.php');
+    break;
+    
+    case 'All Users':
+
+        $users = User_db::select_all();
+        include('view/UserManager.php');
+        break;
+    
     case 'Add Walk':
         $day = filter_input(INPUT_POST, "day");
         $time = filter_input(INPUT_POST, "time");
@@ -326,26 +355,25 @@ switch ($action) {
         include('view/Landing.php');   
         break;
     case 'View Schedule':
-     //$type = $_SESSION['type'];
-//        if ($type = 1){
-//        include('view/customerSchedule.php');
-//        break;
-//        }if ($type = 2){
-//        include('view/walkerSchedule.php');  
-//        break;
-//        }else{
-     $schedules = '';
-    $appointments = '';
      $schedules = Schedule_db::select_all();
      $appointments = Appointment_db::select_all();
      include('view/combinedSchedule.php');    
 //        }    
-     break;    
+     break;   
+    case 'Review Schedule':
+     $schedules = Schedule_db::select_all();
+     $appointments = Appointment_db::select_all();
+     include('view/customerSchedule.php');    
+     break;
     case 'Save':
           $username = $_SESSION['username'];
           $name = filter_input(INPUT_POST, "name");
           $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
           $password = filter_input(INPUT_POST, "password");
+          $street = filter_input(INPUT_POST, "street");
+          $city = filter_input(INPUT_POST, "city");
+          $state = filter_input(INPUT_POST, "state");
+                  
   
           $error = '';
           $errorName ='';

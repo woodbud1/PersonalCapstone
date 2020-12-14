@@ -6,12 +6,13 @@
                 </div><br><br>
         <form action="." method="post" id="landing">
             <?php if (($_SESSION['Type']) == 0) 
-            { ?><input type="submit" name="action" class="button" value="Edit" >
+            { ?><input type="submit" name="action" class="button" value="Edit Profile" >
             <input type="submit" name="action" class="button" value="View Schedule" ><?php } ?>
             <?php if (($_SESSION['Type']) == 1) 
-            { ?><input type="submit" name="action" class="button" value="All Users" >
+            { ?>
+            <input type="submit" name="action" class="button" value="All Users" >
             <input type="submit" name="action" class="button" value="Add Walk Availability" >
-            <input type="submit" name="action" class="button" value="Manage Schedule" ><?php } ?>
+            <input type="submit" name="action" class="button" value="Review Schedule" ><?php } ?>
             <input class="button" type="submit" name="action" value="Logout" >
         </form>
         <br>

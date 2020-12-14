@@ -30,7 +30,7 @@
             <input class="button" type="submit" value="Back" >
             <input type="submit" name="action" class="button" value="Add Walk" >
                    </form>
-        </div></center<br><br>
+        </div></center><br><br>
     </div>
 </main>
 <?php include 'footer.php'; ?>
